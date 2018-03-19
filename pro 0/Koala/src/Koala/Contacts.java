@@ -1,0 +1,171 @@
+package Koala;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Vector;
+import utils.Holder;
+
+//wszystkie kontakty zapisane w pliku
+public class Contacts
+{
+    public ArrayList<utils.Holder> vec = new ArrayList<utils.Holder>();
+    
+    public Contacts(){
+
+        File f = new File("kontakty.txt");
+        if(f.exists()) {
+            try {
+            FileInputStream fstream = new FileInputStream("kontakty.txt");
+            // Get the object of DataInputStream
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null)   
+            {
+            // Print the content on the console
+                String id = strLine;
+                String nazwa = br.readLine();
+                String status = br.readLine();
+                vec.add(new utils.Holder(id, nazwa, status));
+            }
+            //Close the input stream
+            in.close();
+            }catch (Exception e)
+            {//Catch exception if any
+                System.err.println("Error: " + e.getMessage());
+            }
+        }else
+        {
+            try
+            {
+                f.createNewFile();
+            }catch(Exception e)
+            {//Catch exception if any
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+    }
+    //zapisuje kontakty z vektora do pliku
+    public void Save_List()
+    {
+        try
+        {
+            // Create file 
+            FileWriter fstream = new FileWriter("kontakty.txt");
+            BufferedWriter out = new BufferedWriter(fstream);
+            for(int i = 0;i<vec.size();i++)
+            {
+               out.write(vec.get(i).getId() + "\n");
+               out.write(vec.get(i).getNazwa() + "\n");
+               out.write(vec.get(i).getStatus() + "\n");
+            }
+            //Close the output stream
+            out.close();
+        }catch (Exception e)
+        {//Catch exception if any
+        System.err.println("Error: " + e.getMessage());
+        }
+        
+    }
+    // dodaje do vectora kontakt i zapisuje do pliku zmiany
+    public boolean Add(utils.Holder c)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getId().equalsIgnoreCase(c.getId())) return false;
+        }
+        vec.add(c);
+        Save_List();
+        return true;
+    }
+    
+    public boolean AddStart(utils.Holder c)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getId().equalsIgnoreCase(c.getId())) return false;
+        }
+        vec.add(c);
+        return true;
+    }
+    
+    //edytuje kontakt
+    public boolean Edit(utils.Holder c, String id)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getId().equalsIgnoreCase(id))
+            {   
+                vec.set(i, c);
+                Save_List();
+                return true;
+            }
+        }
+        return false;
+    }
+    //usuwa kontakt
+    public boolean Delete(String id)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getId().equalsIgnoreCase(id))
+            {   
+                vec.remove(i);
+                Save_List();
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    //Zwraca numer dla podanego pseudonimu
+    public String Get_Number(String pseudo)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getNazwa().equalsIgnoreCase(pseudo))
+            {   
+                return vec.get(i).getId();
+            }
+        }
+        return "-1";
+    }
+    
+    /*
+    //zwraca pseudonim dla podanego numeru
+    public String Get_Pseudo(String numer)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).numer.equalsIgnoreCase(numer))
+            {   
+                return vec.get(i).pseudo;
+            }
+        }
+        return "-1";
+    } */
+    
+    //zwraca obiekt contact
+    public utils.Holder Get_Contact(String nazwa)
+    {
+        for(int i = 0;i<vec.size();i++)
+        {
+            if(vec.get(i).getNazwa().equalsIgnoreCase(nazwa))
+            {   
+                return vec.get(i);
+            }
+        }
+        return null;
+    }
+    
+    public void DeleteAll()
+    {
+        ArrayList<Holder> lvLista = new ArrayList(vec);
+        for(Holder elem : lvLista)
+        {
+            Delete(elem.getNazwa());
+        }
+    }
+}

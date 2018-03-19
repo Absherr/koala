@@ -1,0 +1,56 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package utils;
+
+/**
+ * klasa informacji o znajomym
+ * przechowywana u klienta
+ *
+ */
+public class Holder 
+{
+    private String id;
+    private String nazwa;
+    private int status;
+
+    public Holder () 
+    {
+        id = null;
+        nazwa = null;
+    }
+
+    public Holder (String a, String b, int c) 
+    {
+        id = a;
+        nazwa = b;
+        status = c;
+    }
+
+    public String getId() 
+    {
+        return id;
+    }
+
+    public void setId(String a) 
+    {
+        id = a;
+    }
+
+    public String getNazwa() {
+    return nazwa;
+    }
+
+    public void setNazwa (String a) {
+    nazwa = a;
+    }
+
+    public int getStatus() {
+    return status;
+    }
+
+    public void setStatus(int a) {
+    status = a;
+    }
+}

@@ -1,0 +1,50 @@
+
+ /* po znaku '/' wypisanie nastêpnej danej*/
+ 
+ Protokó³ rozkazów w po³¹czeniach klient -> serwer - odbiór danych:
+ * L - (login ) logowanie - L/login/password
+ * MR - (message request) zapytanie o ip dla danego loginu - MR/login odbiorcy 
+ * LO - (logout) zakoncz polaczenie - LO
+ * IC - (import contacts) zapytanie o kontakty do serwera - IC
+ * EC - (export contacts) odbiera liste kontaktów - EC/lista kontaktow(klasa)
+ * GSL - (get status list) zapytanie o liste statusów znajomych - GSL
+ * SC - (status change) zmieñ status - SC/status
+ 
+ Protokó³ rozkazów w po³¹czeniach serwer -> klient - wysy³anie danych:
+ * L - (login ) logowanie - L
+ * NK - (not login) logowanie nieudane - NL
+ * MS - (message repsonse) odpowiedz z serwera na zapytanie o rozmowe - MS/ip odbiorcy
+ * LO - (logout) zakoncz polaczenie - LO
+ * IC - (import contacts) lista kontaktów wysy³ana - IC/lista kontaktów(klasa)
+ * EC - (export contacts) odebrana lista kontaktów, komunikat - EC
+ * FEC - (fail export contacts) nieudane wyexportowanie danych, komunikat - FEC
+ * GSL - (get status list) wysy³a liste statusów znajomych - GSL/lista statusów(klasa)
+ * SC - (status change) udana zmiana statusu - SC
+ * NSC - (not status change) nieudana zmiana statusu - NSC
+ 
+  Protokó³ rozkazów w po³¹czeniach serwer -> klient - odbiór danych:
+ * L - (login ) logowanie udane, komunikat - L/login
+ * NK - (not login) logowanie nieudane, komunikat - NL
+ * MS - (message request) odpowiedz na zapytanie o ip - MR/IP 
+ * LO - (logout) zakoncz polaczenie udane, komunikat - LO
+ * IC - (import contacts) pobranie danych z serwera - IC/lista kontaktów(klasa)
+ * EC - (export contacts) udane wys³anie danych na serwer, komunikat - EC
+ * FEC - (fail export contacts) nieudane wyexportowanie danych, komunikat - FEC
+ * GSL - (get status list) pobranie statusów z serwera - GSL/lista statusów
+ * SC - (status change) zmieñ status udane, komunikat - SC
+ * NSC - (not status change) nieudana zmiana statusu,komunikat - NSC
+ 
+ Protokó³ rozkazów w po³¹czeniach klient -> serwer - wysy³anie danych:
+ * L - (login ) logowanie - L/login/has³o
+ * MR - (message request) zapytanie o ip dla danego loginu - MR/login odbiorcy 
+ * LO - (logout) zakoncz polaczenie - LO
+ * IC - (import contacts) pobranie listy kontaktów - IC
+ * EC - (export contacts) wys³anie listy kontaktów - EC/lista kontaktów
+ * GSL - (get status list) pobiera liste statusów znajomych - GSL
+ * SC - (status change) zmiana statusu - SC/status
+ 
+  Protokó³ rozkazów w po³¹czeniach klient - klient:
+ * M -(message) wiadomoœæ przychodz¹ca/wychodz¹ca txt - M/id nadawacy/wiadomosc
+ * C -(message) rozmowa przychodz¹ca/wychodz¹ca audio - C/id nadawcy
+ * EM -(end message) koniec rozmowy
+ * EC -(end call) koniec rozmowy

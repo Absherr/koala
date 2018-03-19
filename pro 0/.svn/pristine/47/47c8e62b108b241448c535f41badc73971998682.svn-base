@@ -1,0 +1,288 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Koala;
+
+import Koala.Contacts;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
+import javax.swing.*;
+
+
+/// widok główny
+
+/*
+ * !
+ * Główne okno programu
+ */
+public class Contacts_List extends JFrame implements ActionListener {
+    
+    public JFrame frame;
+    public JScrollPane userContacts;
+    public Contacts contacts;
+    //public Vector<ContainerReceiver> container_receiver;
+    public client.Client program;
+    
+    public JPopupMenu userContactOptions;
+    
+    public JMenuBar menuBar;
+    public JPanel panel; 
+    private JList contactList;
+    private JRadioButtonMenuItem invisible;
+    private JRadioButtonMenuItem unAvaliable;
+    private JRadioButtonMenuItem avaliable;
+    
+    public Contacts_List(client.Client logika, JPanel panel, JFrame frame) {
+	super("Lista kontaktow");
+	//this.mainController = mainController;
+        this.panel = panel;
+        this.frame = frame;
+        this.program = logika;
+	initComponent();
+        
+	createPanel();
+        //this.container_receiver = container_receiver;
+        
+	
+	//setFrameOptions();
+        
+    }
+
+    //Inicjalizacja komponentów
+    private void initComponent() {
+	//panel = new JPanel();
+	contacts = new Contacts();
+	contactList = new JList();
+	userContacts = new JScrollPane(contactList);
+	//createMenuBar();
+	createPopupMenu();
+        refreshContactList(contacts.vec);
+    }
+
+    //Tworzy panel okna
+    private void createPanel() {
+	panel.setLayout(new BorderLayout());
+	panel.add(userContacts, BorderLayout.CENTER);
+	//panel.add(menuBar, BorderLayout.NORTH);
+    }
+
+    //Ustawia własciwosci okna
+    private void setFrameOptions() {
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	Dimension size = new Dimension(screenSize);//rozmiar ramki
+	size.width = size.width / 6;
+	size.height = (int) (size.height / 1.5);
+	
+	setLocation((int) ((screenSize.width / 2) - (size.width / 2)),
+		(int) ((screenSize.height / 2) - (size.height / 2)));
+	
+	setSize(size);
+	getContentPane().add(panel);
+	//setVisible(true);
+	//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    /**
+     * Funkcja odświeżająca liste kontaktów
+     * @param contacts tablica kontaktów
+     */
+    public void refreshContactList(ArrayList<utils.Holder> vec) {
+        
+        String[] contacts = new String[vec.size()];
+       // contacts = (Contact[])vec.toArray();
+        for(int i = 0;i < vec.size();i++)
+        {
+            contacts[i] = vec.get(i).getNazwa();
+        }
+        
+	Arrays.sort(contacts);
+	createContactList(contacts);
+    }
+
+    //Tworzy i dodaje liste auktualnioną liste kontaktów
+    private void createContactList(String[] contacts_str) {
+	contactList = new JList(contacts_str);
+                
+	contactList.addMouseListener(new MouseListener() {
+	    
+	    @Override
+	   public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount()<=1)
+                {
+                }else
+		if (e.getClickCount() >= 2  && program.getCzyZalgowany()==true) 
+                {  
+                    String text = contacts.Get_Number(contactList.getSelectedValue().toString());
+                    //SelectFrame frame = new SelectFrame(contacts,container_receiver,phone);
+                    //frame.setVisible(false);
+                    //setVisible(false); ----------------------------------------------------------------------------
+                    //frame.Okno_Rozmowy(text);
+		}
+                else 
+                {
+                        JOptionPane.showMessageDialog(null, "Musisz sie zarejestrowac");
+                }
+	    }
+	    
+	    @Override
+	    public void mousePressed(MouseEvent e) {
+	    }
+	    
+	    @Override
+	    public void mouseReleased(MouseEvent e) {
+	    }
+	    
+	    @Override
+	    public void mouseEntered(MouseEvent e) {
+	    }
+	    
+	    @Override
+	    public void mouseExited(MouseEvent e) {
+	    }
+
+	});
+	
+	MouseListener popupListener = new Contacts_List.PopupListener(userContactOptions);
+	
+	contactList.addMouseListener(popupListener);
+	
+	panel.remove(userContacts);
+	//contactList.setCellRenderer(new ContactListCellRender());
+	userContacts = new JScrollPane(contactList);
+	panel.add(userContacts, BorderLayout.CENTER);
+	
+        //this.rev
+	frame.revalidate();
+	frame.repaint();
+	
+    }
+
+
+    //Tworzy popupmenu
+    private void createPopupMenu() {
+	JMenuItem menuItem;
+
+	//Create the popup menu.
+	userContactOptions = new JPopupMenu();
+	menuItem = new JMenuItem("Napisz Wiadomosc");
+	menuItem.addActionListener(this);
+        userContactOptions.add(menuItem);
+        menuItem = new JMenuItem("Zadzwon");
+	menuItem.addActionListener(this);
+        userContactOptions.add(menuItem);
+	menuItem = new JMenuItem("Edytuj kontakt");
+	menuItem.addActionListener(this);
+        userContactOptions.add(menuItem);
+        menuItem = new JMenuItem("Dodaj kontakt");
+	menuItem.addActionListener(this);
+	userContactOptions.add(menuItem);
+	userContactOptions.addSeparator();
+	//menuItem = tOptions.add(menuItem);
+	menuItem = new JMenuItem("Usun kontakt");
+	menuItem.addActionListener(this);
+	userContactOptions.add(menuItem);
+        
+    }
+
+    /**
+     * Nadpisana metoda służaca do obsługi popupmenu
+     *
+     * @param e wykonana akcja
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+	
+	if (e.getActionCommand().equals("Napisz Wiadomosc")) 
+        {
+	    //Rozpoczyna nowe okno rozmowy
+	    if (contactList.getSelectedValue() != null && program.getCzyZalgowany() == true) 
+            {
+		String text = contacts.Get_Number(contactList.getSelectedValue().toString());
+                //==========================================
+                //otwiera okno rozmowy, frame do zrobienia
+                //==========================================
+            }else 
+            {
+		    JOptionPane.showMessageDialog(null, "Musisz sie zarejestrowac lub wybrac kontakt");
+            }
+	} else if (e.getActionCommand().equals("Edytuj kontakt")) 
+        {
+	    if (contactList.getSelectedValue() != null) 
+            {
+                Add frame = new Add(this,true);
+                utils.Holder con = contacts.Get_Contact(contactList.getSelectedValue().toString() );
+                frame.setName(con.getNazwa());
+                frame.setNumber(con.getId());
+                frame.setVisible(true);
+                
+	    }else
+            {
+                 JOptionPane.showMessageDialog(null, "Kliknij na kontakt!");
+
+            }
+	} else if (e.getActionCommand().equals("Usun kontakt")) 
+        {
+	    if (contactList.getSelectedValue() != null) {
+		contacts.Delete(contactList.getSelectedValue().toString());
+                refreshContactList(contacts.vec);
+	    }else
+            {
+                 JOptionPane.showMessageDialog(null, "Kliknij na kontakt!");
+
+            }
+	} else if (e.getActionCommand().equals("Dodaj kontakt")) 
+        {
+             new Add(this,false).setVisible(true);
+       
+        }else if (e.getActionCommand().equals("Zadzwon")) 
+        {
+             //Rozpoczyna nowe okno rozmowy
+            if (contactList.getSelectedValue() != null && program.getCzyZalgowany() == true)
+            {
+            String text = contacts.Get_Number(contactList.getSelectedValue().toString());
+            //==========================================
+            //otwiera okno rozmowy, frame do zrobienia
+            //==========================================
+            }else
+            {
+                JOptionPane.showMessageDialog(null, "Musisz sie zarejestrowac lub wybrac kontakt");
+            }
+       
+        }
+        
+    }
+
+    //Klasa słuchacza PopUpMenu
+    class PopupListener extends MouseAdapter {
+	
+	JPopupMenu popup;
+	
+	PopupListener(JPopupMenu popupMenu) {
+	    popup = popupMenu;
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {
+	    maybeShowPopup(e);
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	    maybeShowPopup(e);
+	}
+	
+	private void maybeShowPopup(MouseEvent e) {
+	    if (e.isPopupTrigger()) {
+		popup.show(e.getComponent(),
+			e.getX(), e.getY());
+	    }
+	}
+    }
+}
+
+

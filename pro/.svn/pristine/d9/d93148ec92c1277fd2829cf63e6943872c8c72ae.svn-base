@@ -1,0 +1,42 @@
+package utils;
+
+/**
+ * Klasa statyczna zawierająca rozkazy
+ * @author ADAM
+ */
+public class CommandMessage 
+{
+    public static final String LOGIN = "L";
+    public static final String NOT_LOGGED = "NL";
+    public static final String MESS_REQUEST = "MR";
+    public static final String MESS_RESPONSE = "MS";
+    public static final String MESS = "M";
+    public static final String CALL = "C";
+    public static final String LOGOUT = "LO";
+    public static final String IMPORT_CONTACTS = "IC";
+    public static final String FAIL_EXPORT_CONTACTS = "FEC";
+    public static final String EXPORT_CONTACTS = "EC";
+    public static final String GET_STATUS_LIST= "GSL";
+    public static final String STATUS_CHANGE = "SC";
+    public static final String NOT_STATUS_CHANGE = "NSC";
+    public static final String END_CALL = "EC";
+    public static final String END_MESSAGE = "EM";
+    //rozkaz pobrania soli
+    public static final String GET_SALT = "GS";
+    public static final String NO_EXIST_CONTACT = "NEC";
+    
+}
+/*
+ * protokol polaczenia z serwerem(wiecej w  pliku CommandMessage.txt):
+ * L - (login ) logowanie
+ * MR - (message request) napisz do znajomego
+ * MS - (message repsonse) odpowiedz z serwera na zapytanie o rozmowe
+ * M -(message) wiadomość przychodząca/wychodząca
+ * LO - (logout) zakoncz polaczenie
+ * IC - (import contacts) pobiera liste kontakow z serwera
+ * FEC - (fail export contacts) nieudane wyexportowanie danych
+ * EC - (export contacts) wysyla liste kontaktow na serwer
+ * GSL - (get status list) pobiera liste statusów znajomych
+ * SC - (status change) zmień swój status
+ * NK - (not login) logowanie nieudane
+ */

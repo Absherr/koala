@@ -1,0 +1,2 @@
+komunikator.ThreadServer
+komunikator.Receiver

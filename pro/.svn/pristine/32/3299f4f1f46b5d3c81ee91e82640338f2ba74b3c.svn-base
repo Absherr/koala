@@ -1,0 +1,46 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Koala;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Kam
+ */
+public class clientThread extends Thread{
+    OkienkoGlowne window;
+    client.Client mClient;
+    public clientThread(OkienkoGlowne okno) {
+        this.window = okno;
+        mClient = okno.program;
+    }
+    
+    
+    @Override
+    public void run() {
+        while(mClient.getCzyZalgowany()) {
+            try {
+                ArrayList<String> commands = (ArrayList<String>) mClient.readFromServer();
+                if (utils.CommandMessage.IMPORT_CONTACTS.equalsIgnoreCase(commands.get(0))) {
+                    refreshContactList(commands.subList(1, commands.size()));
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void refreshContactList(List<String> subList) {
+        window.contacts = new Contacts();
+        for(int i = 0; i < subList.size(); i+=2) {
+           utils.Holder kontakt = new utils.Holder(subList.get(i + 1), subList.get(i), utils.Status.UNAVALIBLE);
+           window.contacts.AddStart(kontakt);
+        }
+        window.contacts.Save_List();
+        //NALEZY TU DODAC REFRESH PANEL !!!
+    }
+}

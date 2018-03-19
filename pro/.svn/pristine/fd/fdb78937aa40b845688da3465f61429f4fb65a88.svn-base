@@ -1,0 +1,67 @@
+package utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+ * Pomocnicze klasy oraz funkcje 
+ */
+
+public class Utils
+{
+    public static final String BRAK_REKORDU = "brak";
+    public Utils()
+    {
+        
+    }
+    /*
+     * sprawdza czy podany string jest pusty lub jest null
+     */
+    public boolean isEmpty(String pmStr)
+    {
+        if("".equalsIgnoreCase(pmStr) || pmStr == null)
+            return true;
+        return false;
+    }
+    /*
+     * funkcja pomocnicza przy pobieraniu statusów po stronie klienta
+     * buduje liste z elementami StatusList z listy stringow
+     */
+    public ArrayList<StatusList> makeStatusList(List<String> pmContactsIdList)
+    {
+        ArrayList<StatusList> lvList = new ArrayList();
+        for(int i = 0; i < pmContactsIdList.size(); i = i + 2)
+        {
+            lvList.add(new StatusList(pmContactsIdList.get(i),pmContactsIdList.get(i+1)));
+        }
+        
+        return lvList;
+    }
+ 
+    /*
+    * Klasa odpowiedzialana za przesylanie danych o statusach 
+    * miedzy serwerem a klientem
+    */
+    public class StatusList
+    {
+        //numer id kontaktu
+        private String mId;
+        //status kontaktu
+        private String mStatus;
+
+        StatusList(String pmId, String pmStatus)
+        {
+            mId = pmId;
+            mStatus = pmStatus;
+        }
+
+        public String getStatus()
+        {
+            return mStatus;
+        }
+        public String getId()
+        {
+            return mId;
+        }
+    }
+}
